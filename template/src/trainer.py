@@ -74,19 +74,19 @@ class Trainer(ABC):
 
     def get_gym_env(self, unity_file):
         """
-            @param unity_file   the full path of the Unity environment
+            @param unity_file   the full path of Unity environment
 
             Returns an Open AI Gym that wraps given Unity environment
             based on selected trainer parameters.
         """
         return UnityEnv(unity_file,
-                        self,params.get('worker_id', 0),
-                        use_visual=self,params.get('use_visual', False),
-                        uint8_visual=self,params.get('use_uint8_visual', False),
-                        multiagent=self,params.get('multiagent', False),
-                        flatten_branched=self,params.get('flatten_branched', False),
-                        allow_multiple_visual_obs=self,params.get('allow_multiple_visual_obs', False),
-                        no_graphics=self,params.get('no_graphics', True))
+                        self.params.get('worker_id', 0),
+                        use_visual=self.params.get('use_visual', False),
+                        uint8_visual=self.params.get('use_uint8_visual', False),
+                        multiagent=self.params.get('multiagent', False),
+                        flatten_branched=self.params.get('flatten_branched', False),
+                        allow_multiple_visual_obs=self.params.get('allow_multiple_visual_obs', False),
+                        no_graphics=self.params.get('no_graphics', True))
     
     @abstractmethod
     def run(self):
