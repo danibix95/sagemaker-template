@@ -46,12 +46,14 @@ The AWS Sagemaker console easily allow to connect your own repository (e.g. Gith
 - associate your repository with the notebook instance
 - start the Sagemaker Jupyter environment and execute the job launcher notebook to create a training job
 - monitor the execution from Sagemaker training job console and CloudWatch logs panel
-- collect the results from provided S3 bucket, where they are stored in a folder named as the *training job name* followed by the timestamp of the job termination
+- collect the results from provided S3 bucket, where they are stored in a folder named as the *training job name* followed by the timestamp of the job initialization
 
 ## Repository Integration
 A well written guide on how to create or link a repository on AWS Sagemaker is reported [here](https://aws.amazon.com/blogs/machine-learning/amazon-sagemaker-notebooks-now-support-git-integration-for-increased-persistence-collaboration-and-reproducibility/).
 
 In case your repository is private and stored on Github, [this guide](https://help.github.com/en/articles/creating-a-personal-access-token-for-the-command-line) on creating a *Personal Access Token* (PAT) might be useful. As a clarification, when granting permissions to a PAT, it is sufficient to check the `repo` one to allow AWS to access your private repository.
+
+Another noteworthy point to take into considerations is the fact that the synchronization between the Github repository and AWS Sagemaker Jupyter environment works similarly to a local repository. As a results any modification on AWS Sagemaker must be reverted in order to update the code after a push to the online repository. Adoptiong Jupyter Lab might help in performing git operations on the AWS repository.
 
 ## Further Examples
 In the repository provided by AWS Labs can be found more [Sagemaker RL examples](https://github.com/awslabs/amazon-sagemaker-examples/tree/master/reinforcement_learning). However, they are more general, based on pre-existing toolkits and not tailored for managing Unity environments.
