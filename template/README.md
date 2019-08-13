@@ -9,7 +9,7 @@ The folder structure is composed by two main components:
 ## Notebook Configuration
 The job launcher Jupyter notebook provides a detailed description of how to configure and run a training job. In a nutshell, the notebook requires the configuration of the S3 output bucket, which image use for training and which source file run.
 
-**Note**: the job launcher notebook is designed to be run within a Sagemaker Jupyter environment. In case users need to run the notebook in a different location, it is their own duty to implement the authentication code, which could be based on [Boto3](https://boto3.amazonaws.com/v1/documentation/api/latest/index.html) library and [Sagemaker SDK](https://sagemaker.readthedocs.io/en/stable/).
+**Note**: the job launcher notebook is designed to be run within a Sagemaker Jupyter environment (kernel `conda_tensorflow_p36`). In case users need to run the notebook in a different location, it is their own duty to implement the authentication code, which could be based on [Boto3](https://boto3.amazonaws.com/v1/documentation/api/latest/index.html) library and [Sagemaker SDK](https://sagemaker.readthedocs.io/en/stable/).
 
 ## Trainer Implementation
 In order to create a new RL algorithm it is sufficient to create a new Python file, import the Trainer abstract class from the `trainer` file and extend it by implementing the `run` method. In addition, in the main guard is necessary to instantiate the class and call its `run` method. In this manner the Sagemaker RLEstimator will execute the proper code with provided configuration (as a dictionary within implemented user file).
@@ -47,6 +47,11 @@ The AWS Sagemaker console easily allow to connect your own repository (e.g. Gith
 - start the Sagemaker Jupyter environment and execute the job launcher notebook to create a training job
 - monitor the execution from Sagemaker training job console and CloudWatch logs panel
 - collect the results from provided S3 bucket, where they are stored in a folder named as the *training job name* followed by the timestamp of the job termination
+
+## Repository Integration
+A well written guide on how to create or link a repository on AWS Sagemaker is reported [here](https://aws.amazon.com/blogs/machine-learning/amazon-sagemaker-notebooks-now-support-git-integration-for-increased-persistence-collaboration-and-reproducibility/).
+
+In case your repository is private and stored on Github, [this guide](https://help.github.com/en/articles/creating-a-personal-access-token-for-the-command-line) on creating a *Personal Access Token* (PAT) might be useful. As a clarification, when granting permissions to a PAT, it is sufficient to check the `repo` one to allow AWS to access your private repository.
 
 ## Further Examples
 In the repository provided by AWS Labs can be found more [Sagemaker RL examples](https://github.com/awslabs/amazon-sagemaker-examples/tree/master/reinforcement_learning). However, they are more general, based on pre-existing toolkits and not tailored for managing Unity environments.

@@ -8,6 +8,7 @@ import boto3
 import zipfile
 
 from abc import ABC
+from abc import abstractmethod
 
 # Unity Gym wrapper for Open AI Gym
 from gym_unity.envs.unity_env import UnityEnv
