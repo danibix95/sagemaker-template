@@ -6,7 +6,7 @@
 # Amazon AWS account ID (can be retrieved when logged as root account
 # from https://console.aws.amazon.com/billing/home?#/account )
 ACCOUNT_ID=<012345678912>
-# select in which region the container will be stored
+# select in which region the container will be stored (e.g eu-west-1 => Ireland)
 # (https://docs.aws.amazon.com/general/latest/gr/rande.html)
 REGION=eu-west-1
 # name of the repository on AWS ECR service, where the image will be stored

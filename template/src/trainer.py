@@ -104,5 +104,5 @@ class Trainer(ABC):
         environment.close()
                        
 if __name__ == '__main__':
-    tr = Trainer()
-    print(tr)
+    print('Abstract base Trainer class. Default configuration:')
+    print(_default_params)
