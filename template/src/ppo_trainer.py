@@ -1,6 +1,7 @@
 #! /usr/bin/env python3
 
 import os
+import tensorflow as tf
 
 from trainer import Trainer
 
@@ -10,7 +11,7 @@ from stable_baselines import PPO2
 
 # ============================================= #
 #  Example configuration parameters to perform  #
-#    the RL training on Unity Gym environment   # 
+#    the RL training on Unity Gym environment   #
 # ============================================= #
 _params = {
     'bucket': 'fruitpunch-sagemaker-test',
@@ -26,7 +27,23 @@ _params = {
     'no_graphics': True
 }
 
-class BaselinePPOTrainer(Trainer):    
+def generate_checkpoint_from_model(model_path, checkpoint_name):
+    """
+        https://github.com/hill-a/stable-baselines/issues/329
+
+        To convert stable baselines models into a TensorFlow one.
+    """
+    model = PPO2.load(model_path)
+
+    with model.graph.as_default():
+        if os.path.exists(checkpoint_name):
+            shutil.rmtree(checkpoint_name)
+
+        tf.saved_model.simple_save(model.sess, checkpoint_name,
+                                   inputs={"obs": model.act_model.obs_ph},
+                                   outputs={"action": model.action_ph})
+
+class BaselinePPOTrainer(Trainer):
     def run(self, max_episodes = 500, max_timesteps = 10000):
         """
             Run the PPO RL algorithm provided by stable baselines library
@@ -36,7 +53,7 @@ class BaselinePPOTrainer(Trainer):
         unity_file = self.download_unity_env()
         env = self.get_gym_env(unity_file)
         # ========================================== #
-        
+
         # RL stable baselines algorithms require a vectorized environment to run
         env = DummyVecEnv([lambda: env])
 
@@ -49,17 +66,21 @@ class BaselinePPOTrainer(Trainer):
             obs, rewards, dones, info = env.step(action)
             env.render()
 
+        sb_model_path = os.path.join('/tmp', 'ppo2_rldemo_sb')
+        model.save(sb_model_path)
+
         # Note: the content of /opt/ml/model and /opt/ml/output is automatically uploaded
         # to previously selected bucket (by the estimator) at the end of the execution
         # os.environ['SM_MODEL_DIR'] correspongs to /opt/ml/model
         model_path = os.path.join(os.environ['SM_MODEL_DIR'], 'ppo2_rldemo')
-        
+
         # Note: this model can not be directly employed in Unity ml-agents
-        model.save(model_path)
-        
+        #       it has to be converted into Barracuda format
+        generate_checkpoint_from_model(sb_model_path, model_path)
+
         # ========================================== #
         BaselinePPOTrainer.close_env(env)
-                       
+
 if __name__ == '__main__':
     ppo_tr = BaselinePPOTrainer(_params)
     ppo_tr.run()

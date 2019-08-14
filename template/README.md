@@ -34,7 +34,9 @@ Moreover, other parameters are needed to be set so that the [Unity Gym wrapper](
 - `allow_multiple_visual_obs` - whether to return a list of observation instead of only one. Defaults to False
 - `no_graphics` - whether to not initialize the graphic drivers to run the environment (set to False only in case use_visual is set to True and the graphic drivers are required). Defaults to True
 
-In the current `src` folder, in addition to the base abstract class, two basic examples are provided (`random_trainer` and `ppo_trainer`) to show a possible `Trainer` class extension and parameters configuration.
+In the current `src` folder, in addition to the base abstract class, three basic examples are provided (`random_trainer`, `ppo_trainer`, `tf_trainer`) to show a possible `Trainer` class extension and parameters configuration.
+
+In addition to the main `Trainer` class, a `LocalTrainer` class has been made available so that the same RL algorithm can be trained locally on your computer by just changing from which class your code inherits and configuring the parameters in the proper manner, so that the Unity environment files can be found on your computer.
 
 ## AWS Sagemaker
 The AWS Sagemaker console easily allow to connect your own repository (e.g. Github, ...) with the code provided within a Sagemaker Jupyter environment. As a result, an example of workflow that can be adopted is the following one:

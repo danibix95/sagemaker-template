@@ -32,3 +32,7 @@ In case you already have created a repository for your project, during the creat
 - Once the training job is finished, you can collect the model and potential output data from S3 associated bucket.
 
 **Note**: after executing the training job, if you do not require to run further job, please stop from Sagemaker console the notebook instance. This allows yoy to save computation hours (and costs) of the AWS instance.
+
+## Use trained model for inferencing on Unity
+Unity ML-Agents library adopted a particular model format: *Barracuda*. Therefore, before using your trained model, it is necessary to convert it into the proper format. In the [documentation](https://github.com/Unity-Technologies/ml-agents/blob/master/UnitySDK/Assets/ML-Agents/Plugins/Barracuda.Core/Barracuda.md) of Unity ML-Agents is explained this procedure.
+The idea is to first convert your neural network model into either the TensorFlow checkpoint format (`.pb`) or in the [Open Neural Network eXchange](https://github.com/onnx/onnx) format (`.onnx`).

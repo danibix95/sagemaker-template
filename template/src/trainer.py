@@ -6,6 +6,7 @@ import gym
 import stat
 import boto3
 import zipfile
+import argparse
 
 from abc import ABC
 from abc import abstractmethod
@@ -15,10 +16,10 @@ from gym_unity.envs.unity_env import UnityEnv
 
 # ============================================= #
 #  Default configuration parameters to perform  #
-#    the RL training on Unity Gym environment   # 
+#    the RL training on Unity Gym environment   #
 # ============================================= #
 _default_params = {
-    # - the name of the bucket from which download the Unity env
+    # - the name of the AWS S3 bucket from which download the Unity env
     'bucket': '',
     # - the filename of the zipped Unity environment
     'zip_env_name': '',
@@ -32,7 +33,7 @@ _default_params = {
     'use_visual': False,
     # - whether to use integer [0-255] (True) or float [0.0-1.0] (False) visual representation
     'use_uint8_visual': False,
-    # - whether you intent to launch an environment which contains more than one agent. Defaults to False
+    # - whether to launch an environment which contains more than one agent. Defaults to False
     'multiagent': False,
     # - will flatten a branched discrete action space into a Gym Discrete.
     #   Otherwise, it will be converted into a MultiDiscrete. Defaults to False
@@ -63,10 +64,10 @@ class Trainer(ABC):
 
         with zipfile.ZipFile(self.params['zip_env_name'], 'r') as zip_ref:
                 zip_ref.extractall(self.params['build_folder'])
-        
+
         # full path of the executable Unity environment file
         unity_file = os.path.join(self.params['build_folder'], self.params['env_file'])
-        
+
         # assign proper permissions to Unity environment file,
         # so that it can be executed for training
         os.chmod(unity_file, stat.S_IRUSR | stat.S_IXUSR | stat.S_IRGRP | stat.S_IRGRP)
@@ -88,7 +89,7 @@ class Trainer(ABC):
                         flatten_branched=self.params.get('flatten_branched', False),
                         allow_multiple_visual_obs=self.params.get('allow_multiple_visual_obs', False),
                         no_graphics=self.params.get('no_graphics', True))
-    
+
     @abstractmethod
     def run(self):
         """
@@ -97,13 +98,44 @@ class Trainer(ABC):
         """
         pass
 
+    def read_hyperparameters():
+        """
+            Parse the input hyperpameters to allow a more flexible
+            algorithm tuning. This function can be extended
+            in subclasses to read further hyperparameters.
+        """
+        return None
+
     def close_env(environment):
         """
             Static method provided to remember that Gym environments
             should be closed after the training process is finished
         """
         environment.close()
-                       
+
+
+class LocalTrainer(Trainer):
+    """
+        This class allows to run the same RL algorithm in your local computer.
+        Therefore it expects that Unity environment executable file
+        is stored on your computer (use build_folder and env_file to provide correct path).
+    """
+    def download_unity_env(self):
+        """
+            Stub method that just checks that permissions to run
+            the Unity environment have been granted.
+        """
+
+        # full path of the executable Unity environment file
+        unity_file = os.path.join(self.params['build_folder'], self.params['env_file'])
+
+        # assign proper permissions to Unity environment file,
+        # so that it can be executed for training
+        os.chmod(unity_file, stat.S_IRUSR | stat.S_IXUSR | stat.S_IRGRP | stat.S_IRGRP)
+
+        return unity_file
+
+
 if __name__ == '__main__':
     print('Abstract base Trainer class. Default configuration:')
     print(_default_params)

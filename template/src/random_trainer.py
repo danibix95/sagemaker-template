@@ -4,7 +4,7 @@ from trainer import Trainer
 
 # ============================================= #
 #  Example configuration parameters to perform  #
-#    the RL training on Unity Gym environment   # 
+#    the RL training on Unity Gym environment   #
 # ============================================= #
 _params = {
     'bucket': 'fruitpunch-sagemaker-test',
@@ -29,25 +29,25 @@ class RandomTrainer(Trainer):
         unity_file = self.download_unity_env()
         env = self.get_gym_env(unity_file)
         # ========================================== #
-        
+
         for episode in range(max_episodes):
             observation = env.reset()
 
             for step in range(max_steps):
                 env.render()
                 print(observation)
-                
+
                 # assign the agent a random action to perform
                 action = env.action_space.sample()
                 observation, reward, done, info = env.step(action)
-                
+
                 if done:
                     print("Episode {} finished after {} timesteps".format(episode, step+1))
                     break
-        
+
         # ========================================== #
         RandomTrainer.close_env(env)
-                       
+
 if __name__ == '__main__':
     r_tr = RandomTrainer(_params)
     r_tr.run()
