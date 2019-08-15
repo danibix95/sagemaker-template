@@ -87,7 +87,6 @@ class TfTrainer(Trainer):
         # Note: the content of /opt/ml/model and /opt/ml/output is automatically uploaded
         # to previously selected bucket (by the estimator) at the end of the execution
         # os.environ['SM_MODEL_DIR'] correspongs to /opt/ml/model
-        os.environ['SM_MODEL_DIR'] = '.'
         model_path = os.path.join(os.environ['SM_MODEL_DIR'], 'tf_rldemo.onnx')
 
         # Note: converting Keras model to ONNX one for being
