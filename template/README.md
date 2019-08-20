@@ -32,7 +32,7 @@ Moreover, other parameters are needed to be set so that the [Unity Gym wrapper](
 - `multiagent` - whether you intent to launch an environment which contains more than one agent. Defaults to False
 - `flatten_branched` - is set to True it flats a branched discrete action space into a Gym Discrete. Otherwise, it will be converted into a MultiDiscrete. Defaults to False
 - `allow_multiple_visual_obs` - whether to return a list of observation instead of only one. Defaults to False
-- `no_graphics` - whether to not initialize the graphic drivers to run the environment (set to False only in case use_visual is set to True and the graphic drivers are required). Defaults to True
+- `no_graphics` - whether to not initialize the graphic drivers to run the environment (set to False only in case use_visual is set to True and the graphic drivers are required and available). Defaults to True
 
 In the current `src` folder, in addition to the base abstract class, three basic examples are provided (`random_trainer`, `ppo_trainer`, `tf_trainer`) to show a possible `Trainer` class extension and parameters configuration.
 

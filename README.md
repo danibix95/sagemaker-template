@@ -23,7 +23,7 @@ In addition, we provided further description of the different components in each
 ## Steps to be up and running with Sagemaker
 
 - Create an AWS Account and carry out the initial security measures, such as creating a non-root user and granting them proper permissions (in our case it means full access to Sagemaker, S3 and ECR services).
-- Open Sagemaker console and create a new notebook instance. During the process it might be useful to create a new *role*, which will be required to execute the training jobs.  
+- Open Sagemaker console and create a new notebook instance. During the process it might be useful to create a new *role*, which will be required to execute the training jobs.
 In addition, a S3 bucket is automatically created and associated to this notebook instance. In case of different needs, it is still possible to create another S3 bucket as container for Sagemaker input/output data, but it might require to configure the proper permissions.  
 In case you already have created a repository for your project, during the creation of the notebook there is the possibility to associate it with the notebook environment. (More details are provided in the `template` folder [description](https://github.com/danibix95/sagemaker-template/tree/master/template)).
 - If required, build and upload the custom Docker image tailored to allow TensorFlow interact with Unity environments (check the detailed description [here](https://github.com/danibix95/sagemaker-template/tree/master/docker)).
@@ -34,7 +34,15 @@ In case you already have created a repository for your project, during the creat
 **Note**: after executing the training job, if you do not require to run further job, please stop from Sagemaker console the notebook instance. This allows yoy to save computation hours (and costs) of the AWS instance.
 
 ## Use trained model for inferencing on Unity
-Unity ML-Agents library adopted a particular model format: *Barracuda*. Therefore, before using your trained model, it is necessary to convert it into the proper format. In the [documentation](https://github.com/Unity-Technologies/ml-agents/blob/master/UnitySDK/Assets/ML-Agents/Plugins/Barracuda.Core/Barracuda.md) of Unity ML-Agents is explained this procedure.
-The idea is to first convert your neural network model into either the TensorFlow checkpoint format (`.pb`) or in the [Open Neural Network eXchange](https://github.com/onnx/onnx) format (`.onnx`).
+In order to use your trained model for performing inference, that means choosing which action the agent should carry out, there are two possibilities:
+
++ write a custom Python inferencing script, similar to the training one, that interface with Open AI Gym to send commands to the Unity environment.
++ convert your trained model into a format that can be employed by Unity ML-Agents library.
+
+In both cases the adopted Unity environment should be build for inferencing and not for training (unmark `control` checkbox in the *Academy* object).
+
+### On Unity ML-Agents trained model format 
+Unity ML-Agents library adopted a particular model format: *Barracuda*. Therefore, in order to use your trained model it is necessary to convert it into the proper format. In the [documentation](https://github.com/Unity-Technologies/ml-agents/blob/master/UnitySDK/Assets/ML-Agents/Plugins/Barracuda.Core/Barracuda.md) of Unity ML-Agents is explained this procedure.
+The idea is to first convert your neural network model into either the TensorFlow checkpoint format (`.pb`) or in the [Open Neural Network eXchange](https://github.com/onnx/onnx) format (`.onnx`). Then it would be possible to use the converter script to easily obtain the proper model format.
 
 Note: current *Barracuda* version shipped with Unity ML-Agents still does not support many features and the conversion of `.onnx` models. Therefore it is necessary to adopt *Barracuda* development version, which can be found [here](https://github.com/mantasp/barracuda-release).

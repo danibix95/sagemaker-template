@@ -7,6 +7,8 @@ The FruitPunch AI competition provide a Unity environment as simulation space to
 In this document is therefore reported how to build this custom Docker image necessary to run the RL training of an Unity *ml-agent* on AWS Sagemaker.
 
 ### Requirements
+The following instruction have been tailored for being execuited in a system that support `shell` scripting environment. However, it should be possible to run the same `docker` commands in Windows.
+
 In order to build the custom image, the following packages needs to be installed and configured on your machine:
 
 - Docker Engine and Client (https://docs.docker.com/install/)
