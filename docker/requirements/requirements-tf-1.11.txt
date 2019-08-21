@@ -1,16 +1,16 @@
 # deep learning libraries
-tensorflow-gpu==1.7.1
+tensorboard==1.11.0
 keras
 h5py
 
-protobuf==3.6
-numpy<=1.14.5
-pillow==5.4.1
-enum34~=1.1.6
+setuptools<=39.1.0
+#protobuf==3.6
+#numpy<=1.14.5
+#pillow==5.4.1
+#enum34~=1.1.6
 grpcio<1.12.0
 
 # libraries to interact with a Unity environment
-mlagents
 gym
 gym_unity
 
@@ -32,4 +32,3 @@ opencv-python
 onnx
 tf2onnx
 keras2onnx
-# skl2onnx

@@ -42,3 +42,5 @@ Consequently, from the list of users select the one associated to the `aws-cli` 
 
 ### Future Changes
 In case more or different Python packages are required to be bundled inside the Docker image, a simple process is provided. Indeed, it is sufficient to edit the `requirements.txt` file and executing again the builder script to update the online image, which is the one used for any new Sagemaker training job.
+
+In addition to the default image (Tensorflow 1.7), other custom images have been made available to test different frameworks and their versions. However, those later images have to be tested before being used in production.
