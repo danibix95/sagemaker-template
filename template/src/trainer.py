@@ -103,6 +103,8 @@ class Trainer(ABC):
             Parse the input hyperpameters to allow a more flexible
             algorithm tuning. This function can be extended
             in subclasses to read further hyperparameters.
+            The command lines argument are given to the script
+            by the RLEstimator class and are specified in the hyperparameters argument.
         """
         return None
 

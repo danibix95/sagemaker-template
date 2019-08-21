@@ -1,5 +1,6 @@
 #! /usr/bin/env python3
 
+import argparse
 from trainer import Trainer
 
 # ============================================= #
@@ -20,7 +21,11 @@ _params = {
     'no_graphics': True
 }
 
-class RandomTrainer(Trainer):    
+class RandomTrainer(Trainer):
+    def __init__(self, params, h_params):
+        super().__init__(params)
+        self.h_params = h_params
+
     def run(self, max_episodes = 50, max_steps = 200):
         """
             Run a RL algorithm that generates number of episodes
@@ -29,6 +34,9 @@ class RandomTrainer(Trainer):
         unity_file = self.download_unity_env()
         env = self.get_gym_env(unity_file)
         # ========================================== #
+
+        # hyperparameters test
+        print('Received hyperparameters:', self.h_params)
 
         for episode in range(max_episodes):
             observation = env.reset()
@@ -48,6 +56,25 @@ class RandomTrainer(Trainer):
         # ========================================== #
         RandomTrainer.close_env(env)
 
+    def read_hyperparameters():
+      args_parser = argparse.ArgumentParser()
+
+      # more hyperparameters can be added, depending on project requirements
+      # pay attention that hyperparameters types should be limited
+      # to primitive data types, such as int, str, float, bool, ...
+      # For further information, please refer to https://docs.python.org/3/library/argparse.html
+      args_parser.add_argument('--hyper-param-example', default='',
+                                 type=str,
+                                 help='This is an example of passing an hyperparameters to the script')
+      args_parser.add_argument('--maximum-limit-of-everything', default=7,
+                                 type=int,
+                                 help='This is the maximum size of everything. Just a joke :)')
+
+      return args_parser.parse_args()
+
 if __name__ == '__main__':
-    r_tr = RandomTrainer(_params)
+    # read hyperparameters given by the job launcher notebook
+    h_params = RandomTrainer.read_hyperparameters()
+
+    r_tr = RandomTrainer(_params, h_params)
     r_tr.run()

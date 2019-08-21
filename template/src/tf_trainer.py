@@ -2,6 +2,7 @@
 
 import os
 import onnx
+import argparse
 import keras2onnx
 import numpy as np
 import tensorflow as tf
@@ -28,6 +29,7 @@ _params = {
     'flatten_branched': False,
     'allow_multiple_visual_obs': False,
     'no_graphics': True,
+    # note that following parameters can be passed as hyperparameters
     'observation_size': 8,
     'epsilon': 0.08,
     'gamma': 0.95
