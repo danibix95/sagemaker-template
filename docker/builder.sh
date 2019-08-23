@@ -40,8 +40,8 @@ case $dcf in
 esac
 
 # tag the image so that it can be recognized in the repository
-docker tag $REPOSITORY_NAME:latest $ACCOUNT_ID.dkr.ecr.$REGION.amazonaws.com/$REPOSITORY_NAME:latest
+docker tag $REPOSITORY_NAME:latest $ACCOUNT_ID.dkr.ecr.$REGION.amazonaws.com/$REPOSITORY_NAME:${dcf#dockerfile\.}
 
 # upload created container on AWS ECR service
 # (note: keep track of the image size to forecast potential billings)
-docker push $ACCOUNT_ID.dkr.ecr.$REGION.amazonaws.com/$REPOSITORY_NAME:latest
+docker push $ACCOUNT_ID.dkr.ecr.$REGION.amazonaws.com/$REPOSITORY_NAME:${dcf#dockerfile\.}

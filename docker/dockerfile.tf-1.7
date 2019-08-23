@@ -1,4 +1,4 @@
-# Base image to run Amazon Sagemaker with TensorFlow (tensorflow version is downgraded later)
+# Base image to run Amazon Sagemaker with TensorFlow
 FROM 520713654638.dkr.ecr.eu-west-1.amazonaws.com/sagemaker-tensorflow-scriptmode:1.11.0-gpu-py3
 
 # Libraries required to install stable-baselines
@@ -7,6 +7,8 @@ RUN apt-get update && apt-get install -y cmake libopenmpi-dev zlib1g-dev libsm6 
 # Install libraries required to execute the training
 RUN pip install --upgrade pip
 
+# Note: TensorFlow 1.7 is installed with all the other libraries
+# and will replace the version currently installed in the base image
 COPY requirements/requirements-tf-1.7.txt requirements.txt
 RUN pip install -r requirements.txt --no-cache-dir
 RUN rm requirements.txt
